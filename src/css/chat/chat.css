@@ -1,0 +1,159 @@
+/* ===== Base: mobile ===== */
+.chatApp {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #1d2b4abb;
+  border-right: 1px solid #1d2b4abb;
+}
+
+.chatHeader {
+  background-color: #1d2b4abb;
+  padding: 1rem;
+  border-bottom: 5px solid #f868e2;
+  
+}
+
+.chatTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f868e25f;
+}
+
+.personaje {
+ 
+  color: #ff00ccf9;
+}
+
+
+.chatMessages {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  gap: 0.75rem;
+  flex-direction: column;
+  display: flex;
+}
+
+.chatComposer {
+  display: flex;
+  padding: 0.75rem;
+  gap: 0.5rem;
+}
+
+.message {
+  max-width: 85%;            /* no ocupan todo el ancho */
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+}
+
+.message--model {
+  align-self: flex-start;    /* izquierda */
+  background: #f3f4f6;
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+.message--user {
+  align-self: flex-end;      /* derecha */
+  background: #22252a;
+  color: #ffffff;
+  border-color: #83878b;
+}
+
+.message--typing {
+  opacity: 0.7;
+}
+
+.chatInput {
+  background-color: #dee1e8d2;
+  border: 1px solid #07183997;
+  
+  
+}
+
+
+.chatSend{
+  background-color: #05132e;
+  color: #f925da;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.chatSend:hover {
+  background-color: #f925da;
+}
+
+
+/* ===== Tablet (768px+) ===== */
+@media (min-width: 768px) {
+  .chatHeader {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .chatMessages {
+    padding: 1.5rem;
+    gap: 1rem;
+    font-size: 2rem; 
+  }
+
+  .chatComposer {
+    padding: 1rem 1.5rem;
+  
+  }
+
+  .message {
+    max-width: 75%;
+    
+  }
+  .chatSend{
+    padding: 0.75rem 1.25rem;
+    font-size: 2rem;
+
+  }
+
+  .chatInput{
+    font-size: 2rem;
+    padding: 0.75rem 4rem;
+  }
+
+}
+
+
+/* ===== Desktop (1024px+) ===== */
+@media (min-width: 1024px) {
+  .chatApp {
+    max-width: 32rem;
+    margin: 0 auto;
+    
+  }
+
+  .chatHeader {
+    padding: 1.5rem 2rem;
+  }
+
+  .chatMessages {
+    padding: 2rem;
+  }
+
+  .chatComposer {
+    padding: 1.25rem 2rem;
+    
+  }
+
+  .message {
+    max-width: 100%;
+    font-size: 1.25rem;
+  }
+
+  .chatInput{
+    width: 50%;
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+
+  }
+}

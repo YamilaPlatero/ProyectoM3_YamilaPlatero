@@ -1,0 +1,77 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.body{
+    font: size 16px;
+}
+.card{
+    width: 100%;
+    padding: 1rem;
+}
+
+
+.card__stats{
+    flex: column;
+}
+
+.card__actions{
+    min-height: 44px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+   
+    
+}
+
+.btn {
+  background-color: #07e96d;
+  color: rgb(253, 9, 9);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  
+}
+
+.btn:hover {
+  background-color: #ccd81d;
+}
+
+.btn:focus {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+    .card{
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+   
+    .card__stats{
+        flex: row;
+
+    }
+}
+
+@media (min-width: 1024px){
+    .card{
+        max-width: 32rem;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .card__actions{
+        flex-direction: row;
+        font-size: 2rem;
+        
+
+    }
+
+
+
+}
