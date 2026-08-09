@@ -5,7 +5,7 @@ export function renderMessages(contents, character, isTyping = false) {
 
  let html = container.innerHTML = contents.map(msg => `
     <div class="message message--${msg.role}">
-      <span class="message-role">${msg.role === "user" ? "Vos" :  character  }</span>
+      <span class="message-role">${msg.role === "user" ? "" :  character  }</span>
       <p class="message-text">${msg.parts[0]?.text ?? ""}</p>
     </div>
   `).join("");

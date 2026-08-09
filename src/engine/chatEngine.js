@@ -1,167 +1,522 @@
 
-//? sendMessage (orquestador), historial, 
+//? sendMessage (orquestador), historial
 
-import { clearInput, clearStatus, disableSendButton, enableSendButton, renderMessages, showError, showRetryState, updateTokenUsage } from "../ui/render.js";
-import { buildPayload, normalizeAIResponse } from "../tranform/chatPayload.js";
+import {
+  clearInput,
+  clearStatus,
+  disableSendButton,
+  enableSendButton,
+  renderMessages,
+  showError,
+  showRetryState,
+  updateTokenUsage
+} from "../ui/render.js";
+
+import {
+  buildPayload,
+  normalizeAIResponse
+} from "../tranform/chatPayload.js";
+
 import { fetchGeminiAPI } from "../services/geminiApi.js";
-import { DEFAULT_PERSONA_KEY, PERSONAS } from "../services/prompts.js";
+
+import {
+  DEFAULT_PERSONA_KEY,
+  PERSONAS
+} from "../services/prompts.js";
+
 import { getSessionUsage } from "../services/quotaSimulator.js";
 import { navigateTo } from "../router/router.js";
 
-const MAX_HISTORY = 12; //límite de mensajes que viajan en cada request
 
+const MAX_HISTORY = 12;
+
+const HISTORY_STORAGE_PREFIX = "chatHistory_";
 
 let contents = [];
 let isLoading = false;
 let currentInstruction = DEFAULT_PERSONA_KEY;
 
-function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Recorta el historial a los últimos MAX_HISTORY mensajes (user + model juntos).
-// Se llama después de cada push, así el array nunca crece sin límite.
-function trimHistory() {
-  if (contents.length > MAX_HISTORY) {
-    contents = contents.slice(-MAX_HISTORY);
-  }
+// -----------------------------
+// LOCAL STORAGE
+// -----------------------------
 
-  saveConversation();
+function getHistoryKey() {
+  return `${HISTORY_STORAGE_PREFIX}${currentInstruction}`;
 }
 
-const HISTORY_STORAGE_PREFIX = "historial_"; function getHistoryStorageKey() { return `${HISTORY_STORAGE_PREFIX}${currentInstruction}`; } function saveHistory() { localStorage.setItem( getHistoryStorageKey(), JSON.stringify(contents.slice(-MAX_HISTORY)) ); } function loadHistory() { try { const savedHistory = localStorage.getItem(getHistoryStorageKey()); if (!savedHistory) { return []; } const parsedHistory = JSON.parse(savedHistory); if (!Array.isArray(parsedHistory)) { return []; } return parsedHistory.slice(-MAX_HISTORY); } catch (error) { console.error("Error al cargar el historial:", error); return []; } } export function deleteHistory() { localStorage.removeItem(getHistoryStorageKey()); contents = []; renderMessages(contents); clearStatus(); }
+
+function saveHistory() {
+  const history = contents.slice(-MAX_HISTORY);
+
+  localStorage.setItem(
+    getHistoryKey(),
+    JSON.stringify(history)
+  );
+
+  console.log(
+    "Historial guardado:",
+    getHistoryKey(),
+    history
+  );
+}
+
+
+function loadHistory() {
+  try {
+
+    const saved =
+      localStorage.getItem(
+        getHistoryKey()
+      );
+
+    if (!saved) {
+      console.log(
+        "No hay historial para:",
+        getHistoryKey()
+      );
+
+      return [];
+    }
+
+    const history =
+      JSON.parse(saved);
+
+    if (!Array.isArray(history)) {
+      return [];
+    }
+
+    const limitedHistory =
+      history.slice(-MAX_HISTORY);
+
+    console.log(
+      "Historial cargado:",
+      getHistoryKey(),
+      limitedHistory
+    );
+
+    return limitedHistory;
+
+  } catch (error) {
+
+    console.error(
+      "Error cargando historial:",
+      error
+    );
+
+    return [];
+  }
+}
+
+
+// -----------------------------
+// UTILIDADES
+// -----------------------------
+
+function wait(ms) {
+  return new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+}
+
+
+function trimHistory() {
+
+  if (contents.length > MAX_HISTORY) {
+
+    contents =
+      contents.slice(-MAX_HISTORY);
+
+  }
+
+}
+
+
+// -----------------------------
+// DEBOUNCE
+// -----------------------------
 
 export function debounce(fn, delay) {
+
   let timer = null;
+
   return function (...args) {
+
     clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
+
+    timer = setTimeout(
+      () => fn.apply(this, args),
+      delay
+    );
+
   };
 }
 
-// Traduce el motivo simulado de la cuota a un mensaje legible para el usuario
+
+// -----------------------------
+// ERRORES
+// -----------------------------
+
 function errorMessageFor(quotaReason) {
+
   if (quotaReason === "TOKENS") {
+
     return "Se agotó la cuota simulada de tokens de esta sesión. Reiniciá la página para renovarla.";
+
   }
+
   return "No se pudo enviar. Intentá de nuevo.";
+
 }
+function getCurrentCharacter() { return PERSONAS[currentInstruction]?.label ?? "IA"; }
+
+// -----------------------------
+// SEND MESSAGE
+// -----------------------------
 
 export async function sendMessage(userText) {
-  if (isLoading) return;
-  if (!userText.trim()) return
 
-  const currentPersona = PERSONAS[currentInstruction]
-  const systemInstruction = currentPersona.instruction
+  if (isLoading) return;
+
+  if (!userText.trim()) return;
+
+
+  const currentPersona =
+    PERSONAS[currentInstruction];
+
+  const systemInstruction =
+    currentPersona.instruction;
+
 
   isLoading = true;
-  disableSendButton();
-  clearStatus()
-  clearInput()
-  contents.push({ role: "user", parts: [{ text: userText }] });
-  trimHistory()
-  renderMessages(contents);
 
-  const payload = buildPayload(contents, systemInstruction);
+  disableSendButton();
+
+  clearStatus();
+
+  clearInput();
+
+
+  contents.push({
+    role: "user",
+    parts: [
+      {
+        text: userText
+      }
+    ]
+  });
+
+
+  trimHistory();
+
+  saveHistory();
+
+ renderMessages(contents, getCurrentCharacter());
+
+
+  const payload =
+    buildPayload(
+      contents,
+      systemInstruction
+    );
+
 
   try {
-    const raw = await fetchGeminiAPI(payload);
-    contents.push({ role: "model", parts: [{ text: normalizeAIResponse(raw) }] });
-    trimHistory()
-    renderMessages(contents);
-    updateTokenUsage(getSessionUsage())
-  } catch (err) {
-    if (err.status === 429) {
-      const secs = err.retryAfterSeconds ?? 5;
-      showRetryState(secs);
-      await wait(secs * 1000);
-      try {
-        const raw2 = await fetchGeminiAPI(payload);
-        contents.push({ role: "model", parts: [{ text: normalizeAIResponse(raw2) }] });
-        trimHistory()
-        renderMessages(contents);
-        clearStatus()
-      } catch (retryErr) {
-        contents.pop(); //sacamos el mensaje de usuario que falló
-        showError(errorMessageFor(retryErr.quotaReason));
-      }
-    } else {
-      showError("Error inesperado.");
-      console.error(err);
-    }
-  } finally {
-    isLoading = false;
-    enableSendButton();
-  }
-}
 
-export function setSystemInstruction(instruction) { if (!PERSONAS[instruction]) return; currentInstruction = instruction; contents = loadHistory(); renderMessages(contents); clearStatus(); }
+    const raw =
+      await fetchGeminiAPI(payload);
 
-const debouncedSend = debounce(sendMessage, 300)
-export function initCharacterSelection() {
-    const titles = document.querySelectorAll(".personaje-card__title");
 
-    titles.forEach(title => {
-        title.addEventListener("click", () => {
+    const aiText =
+      normalizeAIResponse(raw);
 
-            const personaje = title.dataset.personaje;
 
-            console.log("PERSONAJE ELEGIDO:", personaje);
-
-            localStorage.setItem(
-                "personajeSeleccionado",
-                personaje
-            );
-
-            navigateTo("/chat");
-        });
+    contents.push({
+      role: "model",
+      parts: [
+        {
+          text: aiText
+        }
+      ]
     });
+
+
+    trimHistory();
+
+    saveHistory();
+
+renderMessages(contents, getCurrentCharacter());
+
+    updateTokenUsage(
+      getSessionUsage()
+    );
+
+
+  } catch (err) {
+
+    if (err.status === 429) {
+
+      const secs =
+        err.retryAfterSeconds ?? 5;
+
+      showRetryState(secs);
+
+      await wait(
+        secs * 1000
+      );
+
+
+      try {
+
+        const raw2 =
+          await fetchGeminiAPI(payload);
+
+
+        const aiText =
+          normalizeAIResponse(raw2);
+
+
+        contents.push({
+          role: "model",
+          parts: [
+            {
+              text: aiText
+            }
+          ]
+        });
+
+
+        trimHistory();
+
+        saveHistory();
+
+renderMessages(contents, getCurrentCharacter());
+        clearStatus();
+
+
+      } catch (retryErr) {
+
+        contents.pop();
+
+        saveHistory();
+
+        showError(
+          errorMessageFor(
+            retryErr.quotaReason
+          )
+        );
+
+      }
+
+
+    } else {
+
+      showError(
+        "Error inesperado."
+      );
+
+      console.error(err);
+
+    }
+
+  } finally {
+
+    isLoading = false;
+
+    enableSendButton();
+
+  }
+
 }
-/**
- * Conecta el motor a los elementos del DOM que renderChat() ya insertó
- * dentro de #app. Se llama una vez, después de setear el innerHTML.
- */
-export function initChatEngine() {
 
 
-  contents = [];
+// -----------------------------
+// CAMBIAR PERSONAJE
+// -----------------------------
 
-const personajeSeleccionado =
-    localStorage.getItem("personajeSeleccionado") || DEFAULT_PERSONA_KEY;
+export function setSystemInstruction(
+  instruction
+) {
 
-currentInstruction = personajeSeleccionado;
+  if (!PERSONAS[instruction]) return;
 
-contents = loadHistory();
 
-  const sendButton = document.getElementById("send-btn");
-  const inputEl = document.getElementById("chat-input");
-  const personaSelect = document.getElementById("persona-select");
-  
+  currentInstruction =
+    instruction;
 
-  if (!sendButton || !inputEl) return;
- 
-  sendButton.addEventListener("click", () => debouncedSend(inputEl.value));
-  inputEl.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") debouncedSend(inputEl.value);
-  });
- 
-  if (personaSelect) {
-    personaSelect.value = personajeSeleccionado;
 
-    personaSelect.addEventListener("change", (e) => {
-        setSystemInstruction(e.target.value);
+  // Cargamos el historial
+  // correspondiente al nuevo personaje
+
+  contents =
+    loadHistory();
+
+
+renderMessages(contents, getCurrentCharacter());
+  clearStatus();
+
+}
+
+
+// -----------------------------
+// DEBOUNCE SEND
+// -----------------------------
+
+const debouncedSend =
+  debounce(sendMessage, 300);
+
+
+// -----------------------------
+// SELECCIÓN DE PERSONAJE
+// -----------------------------
+
+export function initCharacterSelection() {
+
+  const titles =
+    document.querySelectorAll(
+      ".personaje-card__title"
+    );
+
+
+  titles.forEach(title => {
+
+    title.addEventListener(
+      "click",
+      () => {
+
+        const personaje =
+          title.dataset.personaje;
+
+
+        console.log(
+          "PERSONAJE ELEGIDO:",
+          personaje
+        );
+
 
         localStorage.setItem(
-            "personajeSeleccionado",
-            e.target.value
+          "personajeSeleccionado",
+          personaje
         );
-    });
+
+
+        navigateTo("/chat");
+
+      }
+    );
+
+  });
 
 }
 
 
-  renderMessages(contents);
-  updateTokenUsage(getSessionUsage());
+// -----------------------------
+// INICIAR CHAT
+// -----------------------------
+
+export function initChatEngine() {
+
+  const personajeSeleccionado =
+    localStorage.getItem(
+      "personajeSeleccionado"
+    ) || DEFAULT_PERSONA_KEY;
+
+
+  // Primero determinamos
+  // qué personaje está activo
+
+  currentInstruction =
+    personajeSeleccionado;
+
+
+  // Después cargamos
+  // SU historial
+
+  contents =
+    loadHistory();
+
+
+  const sendButton =
+    document.getElementById(
+      "send-btn"
+    );
+
+  const inputEl =
+    document.getElementById(
+      "chat-input"
+    );
+
+  const personaSelect =
+    document.getElementById(
+      "persona-select"
+    );
+
+
+  if (!sendButton || !inputEl) {
+    return;
+  }
+
+
+  sendButton.addEventListener(
+    "click",
+    () => {
+
+      debouncedSend(
+        inputEl.value
+      );
+
+    }
+  );
+
+
+  inputEl.addEventListener(
+    "keydown",
+    (e) => {
+
+      if (e.key === "Enter") {
+
+        debouncedSend(
+          inputEl.value
+        );
+
+      }
+
+    }
+  );
+
+
+  if (personaSelect) {
+
+    personaSelect.value =
+      personajeSeleccionado;
+
+
+    personaSelect.addEventListener(
+      "change",
+      (e) => {
+
+        setSystemInstruction(
+          e.target.value
+        );
+
+
+        localStorage.setItem(
+          "personajeSeleccionado",
+          e.target.value
+        );
+
+      }
+    );
+
+  }
+
+
+renderMessages(contents, getCurrentCharacter());
+  updateTokenUsage(
+    getSessionUsage()
+  );
 
 }
 
- 
+
 export { PERSONAS };
