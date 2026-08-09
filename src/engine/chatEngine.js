@@ -6,6 +6,7 @@ import { buildPayload, normalizeAIResponse } from "../tranform/chatPayload.js";
 import { fetchGeminiAPI } from "../services/geminiApi.js";
 import { DEFAULT_PERSONA_KEY, PERSONAS } from "../services/prompts.js";
 import { getSessionUsage } from "../services/quotaSimulator.js";
+import { navigateTo } from "../router/router.js";
 
 const MAX_HISTORY = 12; //límite de mensajes que viajan en cada request
 
@@ -105,12 +106,33 @@ export function initChatEngine() {
 
 
   contents = [];
-  currentInstruction = DEFAULT_PERSONA_KEY;
+
+const personajeSeleccionado =
+    localStorage.getItem("personajeSeleccionado") || DEFAULT_PERSONA_KEY;
+
+currentInstruction = personajeSeleccionado;
 
 
   const sendButton = document.getElementById("send-btn");
   const inputEl = document.getElementById("chat-input");
   const personaSelect = document.getElementById("persona-select");
+  // Detectar click en cada personaje
+    const titles = document.querySelectorAll(".personaje-card__title");
+
+    titles.forEach(title => {
+        title.addEventListener("click", () => {
+
+            const personaje = title.dataset.personaje;
+
+            localStorage.setItem(
+                "personajeSeleccionado",
+                personaje
+            );
+
+            navigateTo("/chat");
+        });
+    });
+
 
 
  
@@ -127,9 +149,11 @@ export function initChatEngine() {
   });
 }
 
- 
+
   renderMessages(contents);
   updateTokenUsage(getSessionUsage());
+
 }
+
  
 export { PERSONAS };
