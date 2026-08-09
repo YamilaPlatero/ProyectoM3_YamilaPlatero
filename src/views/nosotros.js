@@ -1,3 +1,5 @@
+import { navigateTo } from "../router/router.js";
+
 export function renderNosotros() {
   const app = document.querySelector('#app');
   app.innerHTML = `
@@ -5,7 +7,11 @@ export function renderNosotros() {
     <h1>Sobre Nosotros</h1>
     <p>Vamos en busca de experiencias nuevas</p>
     <p>Queremos que tengas una conversacion con tu personaje favorito</p>
-    <p><a href="/incio" class="nosotros__link">Ve por tu personaje</a></p>
+    <p>
+                <a href="/inicio" class="nosotros__link">
+                    Conoce a nuestro equipo
+                </a>
+            </p>
 
   </section>
   `;
