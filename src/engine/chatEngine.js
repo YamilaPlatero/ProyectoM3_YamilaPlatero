@@ -10,6 +10,7 @@ import { navigateTo } from "../router/router.js";
 
 const MAX_HISTORY = 12; //límite de mensajes que viajan en cada request
 
+
 let contents = [];
 let isLoading = false;
 let currentInstruction = DEFAULT_PERSONA_KEY;
@@ -20,9 +21,13 @@ function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 // Se llama después de cada push, así el array nunca crece sin límite.
 function trimHistory() {
   if (contents.length > MAX_HISTORY) {
-    contents = contents.slice(contents.length - MAX_HISTORY);
+    contents = contents.slice(-MAX_HISTORY);
   }
+
+  saveConversation();
 }
+
+const HISTORY_STORAGE_PREFIX = "historial_"; function getHistoryStorageKey() { return `${HISTORY_STORAGE_PREFIX}${currentInstruction}`; } function saveHistory() { localStorage.setItem( getHistoryStorageKey(), JSON.stringify(contents.slice(-MAX_HISTORY)) ); } function loadHistory() { try { const savedHistory = localStorage.getItem(getHistoryStorageKey()); if (!savedHistory) { return []; } const parsedHistory = JSON.parse(savedHistory); if (!Array.isArray(parsedHistory)) { return []; } return parsedHistory.slice(-MAX_HISTORY); } catch (error) { console.error("Error al cargar el historial:", error); return []; } } export function deleteHistory() { localStorage.removeItem(getHistoryStorageKey()); contents = []; renderMessages(contents); clearStatus(); }
 
 export function debounce(fn, delay) {
   let timer = null;
@@ -88,16 +93,28 @@ export async function sendMessage(userText) {
   }
 }
 
-export function setSystemInstruction(instruction) {
-  if(!PERSONAS[instruction]) return;
-  currentInstruction = instruction;
-  contents = [];         // reset del historial al cambiar de personaje
-  renderMessages(contents);
-  clearStatus()
-}
+export function setSystemInstruction(instruction) { if (!PERSONAS[instruction]) return; currentInstruction = instruction; contents = loadHistory(); renderMessages(contents); clearStatus(); }
 
 const debouncedSend = debounce(sendMessage, 300)
+export function initCharacterSelection() {
+    const titles = document.querySelectorAll(".personaje-card__title");
 
+    titles.forEach(title => {
+        title.addEventListener("click", () => {
+
+            const personaje = title.dataset.personaje;
+
+            console.log("PERSONAJE ELEGIDO:", personaje);
+
+            localStorage.setItem(
+                "personajeSeleccionado",
+                personaje
+            );
+
+            navigateTo("/chat");
+        });
+    });
+}
 /**
  * Conecta el motor a los elementos del DOM que renderChat() ya insertó
  * dentro de #app. Se llama una vez, después de setear el innerHTML.
@@ -112,30 +129,13 @@ const personajeSeleccionado =
 
 currentInstruction = personajeSeleccionado;
 
+contents = loadHistory();
 
   const sendButton = document.getElementById("send-btn");
   const inputEl = document.getElementById("chat-input");
   const personaSelect = document.getElementById("persona-select");
-  // Detectar click en cada personaje
-    const titles = document.querySelectorAll(".personaje-card__title");
+  
 
-    titles.forEach(title => {
-        title.addEventListener("click", () => {
-
-            const personaje = title.dataset.personaje;
-
-            localStorage.setItem(
-                "personajeSeleccionado",
-                personaje
-            );
-
-            navigateTo("/chat");
-        });
-    });
-
-
-
- 
   if (!sendButton || !inputEl) return;
  
   sendButton.addEventListener("click", () => debouncedSend(inputEl.value));
@@ -144,9 +144,17 @@ currentInstruction = personajeSeleccionado;
   });
  
   if (personaSelect) {
-  personaSelect.addEventListener("change", (e) => {
-    setSystemInstruction(e.target.value);
-  });
+    personaSelect.value = personajeSeleccionado;
+
+    personaSelect.addEventListener("change", (e) => {
+        setSystemInstruction(e.target.value);
+
+        localStorage.setItem(
+            "personajeSeleccionado",
+            e.target.value
+        );
+    });
+
 }
 
 

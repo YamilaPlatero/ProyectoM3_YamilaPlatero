@@ -1,4 +1,4 @@
-import { initChatEngine } from "../engine/chatEngine.js";
+import { initCharacterSelection } from "../engine/chatEngine.js";
 import { navigateTo } from "../router/router.js";
 
 export function renderInicio() {
@@ -108,6 +108,6 @@ export function renderInicio() {
         </section>
     `;
 
-    initChatEngine(); // Inicializa el motor de chat para que detecte los clicks en los personajes
+    initCharacterSelection(); // Inicializa la selección de personajes para que detecte los clicks en los personajes
     
 }

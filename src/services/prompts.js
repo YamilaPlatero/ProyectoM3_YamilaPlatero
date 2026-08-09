@@ -99,4 +99,4 @@ export const PERSONAS = {
 };
 
 // Clave del personaje que aparecerá por defecto si algo falla
-export const DEFAULT_PERSONA_KEY = "mago";
+export const DEFAULT_PERSONA_KEY = "constructor";
