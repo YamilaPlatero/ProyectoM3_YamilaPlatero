@@ -108,6 +108,26 @@ function loadHistory() {
   }
 }
 
+export function deleteHistory() {
+  const confirmed = confirm(
+    "¿Querés borrar esta conversación?"
+  );
+
+  if (!confirmed) return;
+
+  localStorage.removeItem(getHistoryKey());
+
+  contents = [];
+
+  renderMessages(contents);
+  clearStatus();
+
+  console.log(
+    "Historial eliminado:",
+    getHistoryKey()
+  );
+}
+
 
 // -----------------------------
 // UTILIDADES
@@ -450,7 +470,22 @@ export function initChatEngine() {
     document.getElementById(
       "persona-select"
     );
+const deleteChatButton =
+  document.getElementById("delete-chat-btn");
 
+if (deleteChatButton) {
+  deleteChatButton.addEventListener(
+    "click",
+    deleteHistory
+  );
+}
+
+if (deleteChatButton) {
+  deleteChatButton.addEventListener(
+    "click",
+    deleteHistory
+  );
+}
 
   if (!sendButton || !inputEl) {
     return;

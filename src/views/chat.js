@@ -33,6 +33,10 @@ export function renderChat() {
         />
         <button class="chatSend" id="send-btn" type="button">Enviar</button>
       </form>
+
+      <button id="delete-chat-btn" type="button">
+            🗑️ Borrar conversación
+      </button>
       
       <!-- Pequeño contenedor para errores o reintentos si falla la IA -->
       <div id="status"></div>
