@@ -8,7 +8,7 @@ import {
 
  describe("quotaSimulator", () => { 
     beforeEach(() => { 
-        resetSessionUsage(); //  clave: arrancamos cada test desde cero 
+        resetSessionUsage(); 
     }); 
     
     it("no excede la cuota recién iniciada", () => { 

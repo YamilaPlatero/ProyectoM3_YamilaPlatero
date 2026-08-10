@@ -3,8 +3,8 @@ import { estimateTokens, estimateContentsTokens } from "../src/services/tokenEst
 
 describe("estimateTokens", () => {
     it("redondea hacia arriba (~4 caracteres por token)", () => { 
-        expect(estimateTokens("hola")).toBe(1); // 4 caracteres → 1 token 
-        expect(estimateTokens("hola mundo")).toBe(3); // 10 caracteres → ceil(2.5) = 3 
+        expect(estimateTokens("hola")).toBe(1); 
+        expect(estimateTokens("hola mundo")).toBe(3); 
     
     }); 
     

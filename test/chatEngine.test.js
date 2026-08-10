@@ -4,8 +4,7 @@ import * as geminiApi from "../src/services/geminiApi.js";
 import { resetSessionUsage } from "../src/services/quotaSimulator.js";
 import * as render from "../src/ui/render.js";
 
-// Mockeamos los DOS módulos con efectos externos: la red (geminiApi)
-// y el DOM (render). Así testeamos SOLO la lógica de orquestación.
+
 vi.mock("../src/services/geminiApi.js");
 vi.mock("../src/ui/render.js");
 
@@ -47,14 +46,14 @@ describe("chatEngine — manejo de 429 y reintento", () => {
     rateLimitError.retryAfterSeconds = 3;
 
     geminiApi.fetchGeminiAPI
-      .mockRejectedValueOnce(rateLimitError)           // 1er intento: falla
-      .mockResolvedValueOnce({                          // 2do intento: éxito
+      .mockRejectedValueOnce(rateLimitError)          
+      .mockResolvedValueOnce({                          
         candidates: [{ content: { parts: [{ text: "ok" }] } }],
         usageMetadata: { promptTokenCount: 10, candidatesTokenCount: 5 },
       });
 
     const sendPromise = sendMessage("hola");
-    await vi.advanceTimersByTimeAsync(3000); // saltamos el wait(3000) del retry
+    await vi.advanceTimersByTimeAsync(3000); 
     await sendPromise;
 
     expect(geminiApi.fetchGeminiAPI).toHaveBeenCalledTimes(2);
@@ -68,13 +67,13 @@ describe("chatEngine — manejo de 429 y reintento", () => {
 
     geminiApi.fetchGeminiAPI
       .mockRejectedValueOnce(rateLimitError)
-      .mockRejectedValueOnce(rateLimitError); // 2do intento TAMBIÉN falla
+      .mockRejectedValueOnce(rateLimitError); 
 
     const sendPromise = sendMessage("este mensaje va a fallar dos veces");
     await vi.advanceTimersByTimeAsync(1000);
     await sendPromise;
 
-    expect(geminiApi.fetchGeminiAPI).toHaveBeenCalledTimes(2); // nunca un 3er intento
+    expect(geminiApi.fetchGeminiAPI).toHaveBeenCalledTimes(2); 
     expect(render.showError).toHaveBeenCalled();
   });
 
@@ -86,7 +85,7 @@ describe("chatEngine — manejo de 429 y reintento", () => {
 
     await sendMessage("otro mensaje");
 
-    expect(geminiApi.fetchGeminiAPI).toHaveBeenCalledTimes(1); // ni un solo reintento
+    expect(geminiApi.fetchGeminiAPI).toHaveBeenCalledTimes(1); 
     expect(render.showError).toHaveBeenCalledWith("Error inesperado.");
   });
 });
