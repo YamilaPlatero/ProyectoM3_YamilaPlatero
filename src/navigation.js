@@ -8,13 +8,12 @@ export function setupLinkInterception() {
     const href = link.getAttribute('href');
     if (!href) return;
 
-    // Filtros de exclusión
     const isModified = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
     const isNewTab = link.target === '_blank';
     const isExternal = link.origin !== window.location.origin;
     
     if (isModified || isNewTab || isExternal) return;
-    if (!href.startsWith('/')) return; // Solo rutas absolutas
+    if (!href.startsWith('/')) return; 
 
     event.preventDefault();
     navigateTo(href);
