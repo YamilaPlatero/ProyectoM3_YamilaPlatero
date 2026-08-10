@@ -12,7 +12,7 @@ El proyecto fue desarrollado con un enfoque Mobile First, priorizando la experie
 https://chat-comunidad.vercel.app/
 
 💻 Repositorio:
-ProyectoM3_YamilaPlatero en GitHub
+[ProyectoM3_YamilaPlatero en GitHub](https://github.com/YamilaPlatero/ProyectoM3_YamilaPlatero)
 
 ✨ Características
 💬 Chat interactivo con inteligencia artificial.
