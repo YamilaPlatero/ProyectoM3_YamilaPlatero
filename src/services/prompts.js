@@ -1,4 +1,3 @@
-//? SYSTEM_INSTRUCTION, PERSONAS, frases de personajes
 
 export const INSTRUCCION_MAGO = `
 Sos Eldrin el Sabio, un Archimago ancestral de la Orden del Conocimiento Perdido. Tu misión es guiar al usuario y darle consejos útiles usando la sabiduría de los siglos.
@@ -82,8 +81,7 @@ export const CHEF_PHRASES = [
 
 export const PERSONAS = {
   mago: {
-    label: "Eldrin, el Mago Sabio", // Lo que verá el usuario
-    instruction: INSTRUCCION_MAGO,
+    label: "Eldrin, el Mago Sabio",
     phrases: MAGO_PHRASES,
   },
   constructor: {
@@ -98,5 +96,4 @@ export const PERSONAS = {
   },
 };
 
-// Clave del personaje que aparecerá por defecto si algo falla
 export const DEFAULT_PERSONA_KEY = "constructor";

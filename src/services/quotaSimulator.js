@@ -1,20 +1,15 @@
-// simulacion de una cuota -- version free
-
 const SESSION_TOKEN_LIMIT = 4000; 
 
-let sessionPromptTokens = 0; // suma de entreda del usuario
-let sessionCandidateTokens = 0; //respuestas que genera la ia
-let requestCount = 0; //cuantas veces se llamo al mok
+let sessionPromptTokens = 0; 
+let sessionCandidateTokens = 0; 
+let requestCount = 0; 
 
-
-// modificar el estado, un efecto secuandario
 export function recordUsage(promptTokenCount, candidatesTokenCount) { 
     sessionPromptTokens += promptTokenCount; 
     sessionCandidateTokens += candidatesTokenCount; 
     requestCount++; } 
     
 
-// lee lo que hay en esas 3 variables    
 export function getSessionUsage() { 
     const totalTokens = sessionPromptTokens + sessionCandidateTokens; 
     return { 
@@ -27,13 +22,10 @@ export function getSessionUsage() {
     }; 
 } 
 
-// booleano, si nos pasamos de limite o no
 export function isSessionQuotaExceeded() { 
     return sessionPromptTokens + sessionCandidateTokens >= SESSION_TOKEN_LIMIT; 
 }
 
-
-// lo vuelve todo a cero
 export function resetSessionUsage() { 
     sessionPromptTokens = 0; 
     sessionCandidateTokens = 0; 

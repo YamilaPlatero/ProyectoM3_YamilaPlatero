@@ -1,6 +1,4 @@
 
-//? sendMessage (orquestador), historial
-
 import {
   clearInput,
   clearStatus,
@@ -37,14 +35,9 @@ let isLoading = false;
 let currentInstruction = DEFAULT_PERSONA_KEY;
 
 
-// -----------------------------
-// LOCAL STORAGE
-// -----------------------------
-
 function getHistoryKey() {
   return `${HISTORY_STORAGE_PREFIX}${currentInstruction}`;
 }
-
 
 function saveHistory() {
   const history = contents.slice(-MAX_HISTORY);
@@ -60,7 +53,6 @@ function saveHistory() {
     history
   );
 }
-
 
 function loadHistory() {
   try {
@@ -128,17 +120,11 @@ export function deleteHistory() {
   );
 }
 
-
-// -----------------------------
-// UTILIDADES
-// -----------------------------
-
 function wait(ms) {
   return new Promise(
     resolve => setTimeout(resolve, ms)
   );
 }
-
 
 function trimHistory() {
 
@@ -150,11 +136,6 @@ function trimHistory() {
   }
 
 }
-
-
-// -----------------------------
-// DEBOUNCE
-// -----------------------------
 
 export function debounce(fn, delay) {
 
@@ -172,11 +153,6 @@ export function debounce(fn, delay) {
   };
 }
 
-
-// -----------------------------
-// ERRORES
-// -----------------------------
-
 function errorMessageFor(quotaReason) {
 
   if (quotaReason === "TOKENS") {
@@ -188,11 +164,9 @@ function errorMessageFor(quotaReason) {
   return "No se pudo enviar. Intentá de nuevo.";
 
 }
-function getCurrentCharacter() { return PERSONAS[currentInstruction]?.label ?? "IA"; }
+function getCurrentCharacter() { return PERSONAS[currentInstruction]?.label ?? "IA";
 
-// -----------------------------
-// SEND MESSAGE
-// -----------------------------
+}
 
 export async function sendMessage(userText) {
 
@@ -310,7 +284,8 @@ renderMessages(contents, getCurrentCharacter());
 
         saveHistory();
 
-renderMessages(contents, getCurrentCharacter());
+        renderMessages(contents, getCurrentCharacter());
+
         clearStatus();
 
 
@@ -349,11 +324,6 @@ renderMessages(contents, getCurrentCharacter());
 
 }
 
-
-// -----------------------------
-// CAMBIAR PERSONAJE
-// -----------------------------
-
 export function setSystemInstruction(
   instruction
 ) {
@@ -365,30 +335,18 @@ export function setSystemInstruction(
     instruction;
 
 
-  // Cargamos el historial
-  // correspondiente al nuevo personaje
-
   contents =
     loadHistory();
 
+    renderMessages(contents, getCurrentCharacter());
 
-renderMessages(contents, getCurrentCharacter());
-  clearStatus();
+    clearStatus();
 
 }
-
-
-// -----------------------------
-// DEBOUNCE SEND
-// -----------------------------
 
 const debouncedSend =
   debounce(sendMessage, 300);
 
-
-// -----------------------------
-// SELECCIÓN DE PERSONAJE
-// -----------------------------
 
 export function initCharacterSelection() {
 
@@ -429,11 +387,6 @@ export function initCharacterSelection() {
 
 }
 
-
-// -----------------------------
-// INICIAR CHAT
-// -----------------------------
-
 export function initChatEngine() {
 
   const personajeSeleccionado =
@@ -442,15 +395,9 @@ export function initChatEngine() {
     ) || DEFAULT_PERSONA_KEY;
 
 
-  // Primero determinamos
-  // qué personaje está activo
-
   currentInstruction =
     personajeSeleccionado;
 
-
-  // Después cargamos
-  // SU historial
 
   contents =
     loadHistory();

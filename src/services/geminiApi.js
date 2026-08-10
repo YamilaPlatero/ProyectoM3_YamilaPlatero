@@ -1,4 +1,4 @@
-const CHAT_ENDPOINT = "/api/chat"; // ruta relativa: mismo origen, Vercel la resuelve sola
+const CHAT_ENDPOINT = "/api/chat"; 
 
 export async function fetchGeminiAPI(payload) {
   let response;
@@ -20,7 +20,6 @@ export async function fetchGeminiAPI(payload) {
     try {
       errorBody = await response.json();
     } catch {
-      // el cuerpo del error no era JSON válido
     }
 
     const errorMessage =

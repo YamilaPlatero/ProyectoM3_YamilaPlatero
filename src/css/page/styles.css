@@ -1,17 +1,14 @@
-/* css/styles.css */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-  
 body {
   font: size 16px;
   font-family: system-ui, sans-serif;
   background: #364561;
-  color: #e8e8e8;
-  
+  color: #e8e8e8; 
 }
 
 header {
@@ -20,14 +17,13 @@ header {
   align-items: flex-start;
   padding: 1rem 2rem;
   background: #1d2b4abb;
-  
+
 }
 
 .logo {
     width: 5%;
     border-radius: 20%;
 }
-
 
 nav a {
   color: #bfd4f5;
@@ -80,12 +76,9 @@ main {
 
 @media (max-width:1024px) {
 
- 
   nav a {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
-
-  
  
 }

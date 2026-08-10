@@ -13,18 +13,12 @@ body {
     padding: 1rem;
 }
 
-/* =========================
-   TARJETA
-   ========================= */
-
 .personaje-card {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
 }
-
-/* Título */
 
 .personaje-card__title {
     padding: 1rem;
@@ -34,19 +28,11 @@ body {
     cursor: pointer;
 }
 
-/* Texto */
-
 .texto-personaje {
     display: block;
     font-size: 1rem;
     color: #e8e8e8;
 }
-
-
-/* =========================
-   CONTENIDO
-   Imagen + texto
-   ========================= */
 
 .personaje-card__content {
     display: flex;
@@ -56,10 +42,6 @@ body {
 }
 
 
-/* =========================
-   IMÁGENES
-   ========================= */
-
 .personaje-card__mago,
 .personaje-card__constructor,
 .personaje-card__chef {
@@ -67,11 +49,6 @@ body {
     height: auto;
     border-radius: 2rem;
 }
-
-
-/* =========================
-   768px
-   ========================= */
 
 @media (min-width: 768px) {
 
@@ -102,20 +79,12 @@ body {
 }
 
 
-/* =========================
-   1024px
-   ========================= */
-
 @media (min-width: 1024px) {
-
-    /* El título queda arriba */
 
     .personaje-card {
         flex-direction: column;
         align-items: center;
     }
-
-    /* Imagen y texto quedan al lado */
 
     .personaje-card__content {
         flex-direction: row;

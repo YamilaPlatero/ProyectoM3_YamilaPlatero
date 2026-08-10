@@ -1,1 +1,64 @@
-import { GoogleGenerativeAI } from "@google/generative-ai"; export default async function handler(req, res) { if (req.method !== "POST") { return res.status(405).json({ error: "Method not allowed", }); } try { const { contents, systemInstruction, generationConfig, model: requestedModel, } = req.body; console.log("Payload recibido:", { contents, systemInstruction, generationConfig, model: requestedModel, }); if (!process.env.GEMINI_API_KEY) { throw new Error("GEMINI_API_KEY no está configurada en Vercel"); } if (!Array.isArray(contents) || contents.length === 0) { return res.status(400).json({ error: "No se recibieron mensajes", }); } const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY); const model = genAI.getGenerativeModel({ model: requestedModel || "gemini-3.5-flash-lite", systemInstruction: systemInstruction?.parts?.[0]?.text || "", generationConfig: { temperature: generationConfig?.temperature ?? 0.9, maxOutputTokens: generationConfig?.maxOutputTokens ?? 150, }, }); const history = contents.slice(0, -1); const lastMessage = contents[contents.length - 1]; const chat = model.startChat({ history, }); const result = await chat.sendMessage( lastMessage?.parts?.[0]?.text || "" ); const response = result.response; const text = response.text(); const usage = response.usageMetadata; console.log("--- Tokens de esta llamada ---"); console.log("Prompt:", usage?.promptTokenCount); console.log("Respuesta:", usage?.candidatesTokenCount); console.log("Total:", usage?.totalTokenCount); return res.status(200).json({ candidates: [ { content: { parts: [ { text: text.trim(), }, ], }, }, ], usage: { promptTokens: usage?.promptTokenCount ?? 0, outputTokens: usage?.candidatesTokenCount ?? 0, totalTokens: usage?.totalTokenCount ?? 0, }, }); } catch (error) { console.error("Error calling Gemini:", error); return res.status(500).json({ error: error.message || "Error generating chat response", }); } }
+import { GoogleGenerativeAI } from "@google/generative-ai"; 
+export default async function handler(req, res) { 
+    if (req.method !== "POST") { 
+        return res.status(405).json({ 
+            error: "Method not allowed", }); } 
+    try { const { contents, systemInstruction, generationConfig, 
+        model: requestedModel, } = req.body; 
+        console.log("Payload recibido:", {  contents, systemInstruction, generationConfig,
+         model: requestedModel, 
+        }); 
+
+    if (!process.env.GEMINI_API_KEY) { 
+         throw new Error("GEMINI_API_KEY no está configurada en Vercel"); 
+        } 
+         if (!Array.isArray(contents) || contents.length === 0) { 
+        return res.status(400).json({  error: "No se recibieron mensajes",
+            
+        });
+     } 
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY); 
+const model = genAI.getGenerativeModel({ 
+            
+    model: requestedModel || "gemini-3.5-flash-lite", 
+    systemInstruction: systemInstruction?.parts?.[0]?.text || "", 
+    generationConfig: { temperature: generationConfig?.temperature ?? 0.9, 
+     maxOutputTokens: generationConfig?.maxOutputTokens ?? 150,
+     }, 
+    });
+
+const history = contents.slice(0, -1); 
+const lastMessage = contents[contents.length - 1]; 
+const chat = model.startChat({ history, }); 
+const result = await chat.sendMessage( lastMessage?.parts?.[0]?.text || "" );
+const response = result.response; 
+const text = response.text(); 
+const usage = response.usageMetadata; 
+    
+    console.log("--- Tokens de esta llamada ---"); 
+    console.log("Prompt:", usage?.promptTokenCount); 
+    console.log("Respuesta:", usage?.candidatesTokenCount); 
+    console.log("Total:", usage?.totalTokenCount); 
+         return res.status(200).json({ 
+        candidates: [ { content: { parts: [ { text: text.trim(), 
+
+}, 
+], 
+}, 
+}, 
+],
+                                    
+
+    usage: { promptTokens: usage?.promptTokenCount ?? 0, 
+    outputTokens: usage?.candidatesTokenCount ?? 0, 
+    totalTokens: usage?.totalTokenCount ?? 0, }, 
+});
+}
+
+
+         catch (error) { console.error("Error calling Gemini:", error); 
+        return res.status(500).json({
+         error: error.message || "Error generating chat response",
+    }); 
+ } }
