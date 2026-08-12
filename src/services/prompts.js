@@ -82,7 +82,7 @@ export const CHEF_PHRASES = [
 export const PERSONAS = {
   mago: {
     label: "Eldrin, el Mago Sabio",
-    instruction: INSTRUCCION_CONSTRUCTOR,
+    instruction: INSTRUCCION_MAGO,
     phrases: MAGO_PHRASES,
   },
   constructor: {
