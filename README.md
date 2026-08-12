@@ -1,53 +1,74 @@
-💬 Chat Dinamico
+# 💬 Chat Dinamico
 
 Chat Dinamico es una Single Page Application (SPA) de chat interactivo desarrollada con JavaScript, HTML y CSS.
 
-La aplicación permite conversar con distintos personajes mediante inteligencia artificial, manteniendo una conversación independiente para cada personaje.
+La aplicación permite conversar con distintos personajes mediante inteligencia artificial, manteniendo una conversación independiente para cada personaje, teneindo la posibilidad de conservar los hilos de conversacion en cada chat y borrandola si se desea.
 
 El proyecto fue desarrollado con un enfoque Mobile First, priorizando la experiencia de uso en dispositivos móviles y adaptando posteriormente la interfaz a pantallas de mayor tamaño.
 
-🚀 Demo
+## 🚀 Demo
 
-🌐 Aplicación:
-https://chat-comunidad.vercel.app/
+🌐 [Demo](https://chat-comunidad.vercel.app/)
 
-💻 Repositorio:
-[ProyectoM3_YamilaPlatero en GitHub](https://github.com/YamilaPlatero/ProyectoM3_YamilaPlatero)
 
-✨ Características
-💬 Chat interactivo con inteligencia artificial.
-🤖 Tres personajes con personalidades diferentes:
-🧙 Mago
-🏗️ Constructor
-👨‍🍳 Chef
-💾 Persistencia de conversaciones mediante localStorage.
-🗂️ Historial independiente para cada personaje.
-🔢 Máximo de 12 mensajes almacenados por conversación.
-🗑️ Posibilidad de eliminar la conversación actual.
-🔄 Reintento automático ante errores 429.
-⏳ Estados de carga y reintento.
-🚫 Bloqueo del botón de envío mientras se procesa una solicitud.
-📊 Visualización del consumo simulado de tokens.
-🔀 Navegación como SPA.
-📱 Diseño Mobile First y responsive.
-🔐 API Key protegida mediante variables de entorno.
-🛠️ Tecnologías utilizadas
-Frontend
-HTML5 — estructura de la aplicación.
-CSS3 — estilos, responsive y diseño Mobile First.
-JavaScript ES Modules — lógica y comportamiento de la aplicación.
-Vite — build y herramientas de desarrollo.
-Inteligencia Artificial
-Google Gemini API — generación de respuestas.
-@google/generative-ai — SDK utilizado para comunicarse con Gemini.
-Persistencia
-localStorage — almacenamiento local de las conversaciones.
-Testing
-Vitest — pruebas automatizadas.
-Deploy
-Vercel — despliegue de la aplicación.
-Vercel Serverless Functions — comunicación segura con la API de Gemini.
-📁 Estructura del proyecto
+💻 [Repositorio](https://github.com/YamilaPlatero/ProyectoM3_YamilaPlatero)
+
+## ✨ Características
+
+- 💬 Chat interactivo con inteligencia artificial.
+- 🤖 Tres personajes con personalidades diferentes:
+- 🧙 Mago
+- 🏗️ Constructor
+- 👨‍🍳 Chef
+- 💾 Persistencia de conversaciones mediante localStorage.
+- 🗂️ Historial independiente para cada personaje.
+- 🔢 Máximo de 12 mensajes almacenados por conversación.
+- 🗑️ Posibilidad de eliminar la conversación actual.
+- 🔄 Reintento automático ante errores 429.
+- ⏳ Estados de carga y reintento.
+- 🚫 Bloqueo del botón de envío mientras se procesa una solicitud.
+- 📊 Visualización del consumo simulado de tokens.
+- 🔀 Navegación como SPA.
+- 📱 Diseño Mobile First y responsive.
+- 🔐 API Key protegida mediante variables de entorno.
+
+## 🛠️ Tecnologías utilizadas
+
+### Frontend
+
+- **HTML5** — estructura de la aplicación.
+- **CSS3** — estilos, responsive y diseño Mobile First.
+- **JavaScript ES Modules** — lógica y comportamiento.
+- **Vite** — construcción y herramientas de desarrollo.
+- **Google Gemini API** —	Inteligencia artificial.
+- **@google/generative-ai** —	SDK de Gemini.
+- **localStorage**	— Persistencia.
+- **Vitest	Testing** — Captura de error
+- **Vercel	Deploy** — Demo 
+- **Serverless Functions**	— Backend/API.
+  
+
+### Inteligencia Artificial
+
+- **Google Gemini API** — generación de respuestas.
+- **@google/generative-ai** — SDK utilizado para comunicarse con Gemini.
+
+### Persistencia
+
+- **localStorage** — almacenamiento local de las conversaciones.
+
+### Testing
+
+- **Vitest** — pruebas automatizadas.
+
+### Deploy
+
+- **Vercel** — despliegue de la aplicación.
+- **Vercel Serverless Functions** — comunicación con la API de Gemini.
+  
+## 📁 Estructura del proyecto
+
+```text
 ProyectoM3_YamilaPlatero/
 │
 ├── api/
@@ -66,8 +87,7 @@ ProyectoM3_YamilaPlatero/
 │   ├── ui/
 │   │   └── render.js
 │   │
-│   ├── views/
-│   └── chatEngine.js
+│   └── views/
 │
 ├── test/
 │
@@ -77,29 +97,17 @@ ProyectoM3_YamilaPlatero/
 ├── package.json
 ├── package-lock.json
 └── README.md
-📋 Requisitos
+```
 
-Para ejecutar el proyecto localmente necesitás tener instalado:
-
-Node.js
-npm
-Git
-
-Podés comprobar las instalaciones ejecutando:
-
-node -v
-npm -v
-git --version
-📥 Descargar el proyecto
+## 📋 Requisitos
 
 Para obtener el proyecto desde GitHub:
 
-git clone https://github.com/YamilaPlatero/ProyectoM3_YamilaPlatero.git
+#### Ingresá a la carpeta:
 
-Ingresá a la carpeta:
+- cd ProyectoM3_YamilaPlatero
 
-cd ProyectoM3_YamilaPlatero
-📦 Instalar dependencias
+## 📦 Instalar dependencias
 
 Una vez dentro del proyecto, ejecutá:
 
@@ -107,18 +115,19 @@ npm install
 
 Esto instalará todas las dependencias especificadas en package.json.
 
-🔐 Configurar la API de Gemini
+## 🔐 Configurar la API de Gemini
 
 El proyecto utiliza una función serverless ubicada en:
 
-/api/chat.js
+#### /api/chat.js
 
 Esta función se encarga de comunicarse con Google Gemini.
 
 La API Key debe configurarse mediante una variable de entorno:
 
-GEMINI_API_KEY
-Archivo .env
+#### GEMINI_API_KEY
+
+Archivo .env, ubicado en la carpeta raiz del proyecto.
 
 Para trabajar localmente se puede utilizar un archivo .env.
 
@@ -126,7 +135,7 @@ Ejemplo:
 
 GEMINI_API_KEY=tu_api_key
 
-⚠️ Nunca se debe subir la API Key real a GitHub.
+## ⚠️ Nunca se debe subir la API Key real a GitHub.
 
 El archivo .env debe estar incluido en .gitignore.
 
@@ -136,114 +145,113 @@ El proyecto incluye un archivo:
 
 que sirve como referencia para conocer las variables necesarias sin exponer información sensible.
 
-▶️ Ejecutar el proyecto localmente
+## ▶️ Ejecutar el proyecto localmente
 
 Una vez instaladas las dependencias, el proyecto se puede levantar utilizando:
 
-npx serve -s
+- npm i
+- npm i -g vercel
+- vercel dev
 
-El parámetro -s permite servir correctamente la aplicación como una Single Page Application, incluyendo las rutas utilizadas por el proyecto.
-
-La terminal mostrará una dirección local similar a:
+#### La terminal mostrará una dirección local similar a:
 
 http://localhost:3000
 
 Abrí esa dirección en el navegador para utilizar la aplicación.
 
-🧪 Ejecutar las pruebas
+## 🧪 Ejecutar las pruebas
 
 El proyecto utiliza Vitest para realizar pruebas automatizadas.
 
 Para ejecutar las pruebas:
 
-npx vitest
+npm vitest
 
-Para ejecutarlas una sola vez:
+## 🧭 Cómo utilizar la aplicación
 
-npx vitest run
+#### 1. Inicio
 
-Para utilizar el modo watch:
-
-npx vitest --watch
-🧭 Cómo utilizar la aplicación
-1. Inicio
-
-Al ingresar a la aplicación se muestra la pantalla principal.
+Al ingresar a la aplicación se muestra la pantalla principal que tiene una breve descripcion de sus principales ideas.
 
 Desde allí se puede navegar por las diferentes secciones:
 
-Inicio
-Chat
-Nosotros
-2. Elegir un personaje
+- Inicio
+- Chat
+- Nosotros
 
-Desde la sección correspondiente se puede seleccionar uno de los personajes disponibles:
+#### 2. Elegir un personaje
 
-🧙 Mago
+Se puede elegir el personaje la secciónes, en primer instacia podes leer en el inicio cada personaje y sus caracteristicas, haciendo click en el nombre podes ir directo al chat para iniciar conversacion, como tambien una vez estando en chat tenes selector para poder cambiar si asi lo deseas. 
+Los personajes disponibles:
 
-Personaje orientado a una personalidad mágica y fantástica.
+### - 🧙 Mago
 
-🏗️ Constructor
+  Personaje orientado a una personalidad mágica y sabiduria.
 
-Personaje orientado a temas relacionados con construcción y proyectos.
+### - 🏗️ Constructor
 
-👨‍🍳 Chef
+  Personaje orientado a temas relacionados con construcción y proyectos.
 
-Personaje orientado a gastronomía y cocina.
+### - 👨‍🍳 Chef
+
+  Personaje orientado a gastronomía y cocina.
 
 Al seleccionar un personaje, la aplicación guarda la elección y navega automáticamente hacia el chat.
 
-💬 Utilizar el chat
+## 💬 Utilizar el chat
 
 Una vez seleccionado el personaje:
 
-Ingresá a la pantalla de chat.
-Escribí un mensaje.
-Presioná Enviar.
-También podés presionar Enter.
-La aplicación envía el mensaje a la API.
-Gemini genera la respuesta.
-La respuesta aparece en la conversación.
+- Ingresá a la pantalla de chat.
+- Escribí un mensaje.
+- Presioná Enviar.
+- También podés presionar Enter.
+- La aplicación envía el mensaje a la API.
+- Gemini genera la respuesta.
+- La respuesta aparece en la conversación, con el nombre del personaje elegido.
 
 El botón de envío se bloquea mientras se procesa la solicitud para evitar envíos duplicados.
 
-💾 Persistencia del historial
+## 💾 Persistencia del historial
 
 Las conversaciones se almacenan utilizando localStorage.
 
-Cada personaje posee un historial independiente.
+Cada personaje posee un historial independiente  y una ejecion de borrado particular.
 
-Las claves utilizadas son:
+#### Las claves utilizadas son:
 
-chatHistory_mago
-chatHistory_constructor
-chatHistory_chef
+- chatHistory_mago
+- chatHistory_constructor
+- chatHistory_chef
+
 
 Esto permite que las conversaciones no se mezclen.
 
-Por ejemplo:
+### Por ejemplo:
 
+```text
 Mago
  ├── Usuario: Hola
  ├── Mago: ¡Saludos!
  └── Usuario: ¿Qué podés enseñarme?
+```
 
-Mientras que Constructor mantiene su propio historial:
+### Mientras que Constructor mantiene su propio historial:
 
+```text
 Constructor
  ├── Usuario: Necesito construir una casa
  └── Constructor: Podemos comenzar por...
-🔢 Límite de mensajes
+```
 
-Cada conversación conserva como máximo:
+## 🔢 Límite de mensajes
 
-12 mensajes
+- Cada conversación conserva como máximo:
+- 12 mensajes
+- Cuando el historial supera ese límite, se conservan únicamente los mensajes más recientes.
+- Esto permite limitar la cantidad de información almacenada y enviada a la API.
 
-Cuando el historial supera ese límite, se conservan únicamente los mensajes más recientes.
-
-Esto permite limitar la cantidad de información almacenada y enviada a la API.
-
-🗑️ Eliminar una conversación
+## 🗑️ Eliminar una conversación
 
 El usuario puede eliminar la conversación del personaje actual mediante el botón:
 
@@ -251,7 +259,7 @@ Borrar conversación
 
 Antes de eliminarla, la aplicación solicita confirmación.
 
-Por ejemplo, si el personaje actual es Chef:
+#### Por ejemplo, si el personaje actual es Chef:
 
 chatHistory_chef
 
@@ -259,17 +267,17 @@ será eliminado.
 
 Los historiales de:
 
-chatHistory_mago
-chatHistory_constructor
+chatHistory_mago y chatHistory_constructor
 
 permanecerán intactos.
 
-🤖 Funcionamiento de la inteligencia artificial
+## 🤖 Funcionamiento de la inteligencia artificial
 
 La comunicación entre la aplicación y Gemini se realiza mediante una función serverless.
 
-El flujo general es:
+### El flujo general es:
 
+```text
 Usuario
    │
    ▼
@@ -298,18 +306,19 @@ chatEngine.js
    │
    ▼
 Respuesta en pantalla
+```
 
 La API Key permanece del lado del servidor mediante variables de entorno.
 
-🧠 Sistema de personajes
+## 🧠 Sistema de personajes
 
 Las instrucciones de los personajes se encuentran centralizadas en:
 
-src/services/prompts.js
+#### src/services/prompts.js
 
 Cada personaje posee su propia instrucción, lo que permite modificar su personalidad y comportamiento sin alterar la lógica principal del chat.
 
-🔄 Manejo de errores
+## 🔄 Manejo de errores
 
 La aplicación contempla diferentes errores durante la comunicación con la API.
 
@@ -321,90 +330,47 @@ Otros errores
 
 Ante un error inesperado se muestra un mensaje al usuario y se registra información en la consola para facilitar la depuración.
 
-📊 Consumo de tokens
 
-El proyecto incorpora un sistema de simulación de consumo de tokens.
-
-La interfaz permite visualizar:
-
-Tokens utilizados.
-Límite de tokens.
-Tokens restantes.
-
-Este sistema es independiente del historial guardado en localStorage.
-
-📱 Diseño Mobile First
+## 📱 Diseño Mobile First
 
 El proyecto fue desarrollado siguiendo una estrategia Mobile First.
 
 Esto significa que la interfaz se diseñó inicialmente pensando en dispositivos móviles y posteriormente se adaptó a pantallas más grandes.
 
-Se priorizaron:
+#### Se priorizaron:
 
-Navegación sencilla.
-Controles accesibles desde pantallas táctiles.
-Distribución vertical del contenido.
-Campos de entrada adaptados a dispositivos móviles.
-Diseño responsive.
-Adaptación progresiva para tablets y desktop.
-🌐 Deploy
+- Navegación sencilla.
+- Controles accesibles desde pantallas táctiles.
+- Distribución vertical del contenido.
+- Campos de entrada adaptados a dispositivos móviles.
+- Diseño responsive.
+- Adaptación progresiva para tablets y desktop.
+
+## 🌐 Deploy
 
 La aplicación está desplegada utilizando Vercel.
 
-Demo
-
-Abrir ChatComunidad
-
-Repositorio
-
-Ver código en GitHub
+- Demo
+- Abrir ChatComunidad
+- Repositorio
+- Ver código en GitHub
 
 Para que la integración con Gemini funcione correctamente en producción es necesario configurar en Vercel:
 
 GEMINI_API_KEY
-🔄 Actualizar el proyecto
 
-Después de realizar modificaciones:
-
-git add .
-
-Crear un commit:
-
-git commit -m "Descripción de los cambios"
-
-Subir los cambios:
-
-git push
-
-Si el repositorio está conectado con Vercel, los nuevos cambios pueden generar automáticamente un nuevo deployment.
-
-🔒 Seguridad
+## 🔒 Seguridad
 
 La API Key de Gemini es información privada y no debe incluirse directamente en el código fuente.
 
-❌ No hacer:
-
-const API_KEY = "mi-clave-secreta";
-
-✅ Utilizar:
+## ✅ Utilizar:
 
 process.env.GEMINI_API_KEY
 
 y configurar la variable en el entorno correspondiente.
 
-📌 Tecnologías
-Tecnología	Uso
-HTML5	Estructura
-CSS3	Diseño y Mobile First
-JavaScript	Lógica de la aplicación
-Vite	Build
-Google Gemini API	Inteligencia artificial
-@google/generative-ai	SDK de Gemini
-localStorage	Persistencia
-Vitest	Testing
-Vercel	Deploy
-Serverless Functions	Backend/API
-👩‍💻 Sobre el proyecto
+
+## 👩‍💻 Sobre el proyecto
 
 ChatComunidad fue desarrollado como proyecto práctico para aplicar conceptos de desarrollo frontend, arquitectura modular en JavaScript, consumo de APIs, integración con inteligencia artificial, persistencia de datos, manejo de errores, testing y despliegue.
 
@@ -412,8 +378,7 @@ El proyecto busca combinar una interfaz sencilla y responsive con una experienci
 
 🔗 Enlaces
 
-🌐 Demo:
-chat-comunidad.vercel.app
+🌐 [Demo](https://chat-comunidad.vercel.app/)
 
-💻 GitHub:
-ProyectoM3_YamilaPlatero
+
+💻 [Repositorio](https://github.com/YamilaPlatero/ProyectoM3_YamilaPlatero)
