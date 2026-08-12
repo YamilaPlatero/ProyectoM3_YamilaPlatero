@@ -70,7 +70,7 @@ export function updateTokenUsage(usage) {
   const el = document.getElementById("token-usage");
   if (!el) return;
  
-  el.textContent = `Tokens de sesión (simulado): ${usage.totalTokens} / ${usage.limit} — quedan ${usage.remaining}`;
-  el.classList.toggle("token-usage--warning", usage.remaining <= usage.limit * 0.2);
-  el.classList.toggle("token-usage--exhausted", usage.remaining === 0);
+  //el.textContent = `Tokens de sesión (simulado): ${usage.totalTokens} / ${usage.limit} — quedan ${usage.remaining}`;
+  //el.classList.toggle("token-usage--warning", usage.remaining <= usage.limit * 0.2);
+  //el.classList.toggle("token-usage--exhausted", usage.remaining === 0);
 }

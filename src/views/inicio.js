@@ -8,7 +8,9 @@ export function renderInicio() {
         <section class="personaje-selection">
             <p>¡Podrás elegir con quién mantener una conversación!</p>
             <p>Bienvenidos a Chat Dinámico para que puedas interactuar
-                con tu personaje favorito.</p>
+                con tu personaje favorito.
+               <h3>Haciendo click en el nombre podes ir directo al chat.</h3>
+                </p>
 
             <!-- MAGO -->
             <div class="personaje-card">

@@ -71,7 +71,7 @@
 .chatSend{
   width: 30%;
   background-color: #05132e;
-  color: #f925da;
+  color: #f336d7;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
@@ -79,7 +79,7 @@
 }
 
 .chatSend:hover {
-  background-color: #f925da;
+  background-color: #05132e6d;
 }
 
 .deletebtn{

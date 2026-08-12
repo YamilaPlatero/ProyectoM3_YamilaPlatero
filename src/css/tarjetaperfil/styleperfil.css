@@ -94,11 +94,6 @@ body {
         width: 100%;
     }
 
-    .personaje-card__mago,
-    .personaje-card__constructor,
-    .personaje-card__chef {
-        width: 37%;
-    }
 
     .texto-personaje {
         max-width: 400px;
