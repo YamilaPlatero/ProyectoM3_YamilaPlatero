@@ -45,4 +45,3 @@ export function navigateTo(path) {
   window.scrollTo(0, 0);
 }
 
-window.addEventListener('popstate', router);
