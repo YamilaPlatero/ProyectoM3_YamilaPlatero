@@ -68,35 +68,55 @@ El proyecto fue desarrollado con un enfoque Mobile First, priorizando la experie
   
 ## 📁 Estructura del proyecto
 
-```text
-ProyectoM3_YamilaPlatero/
-│
-├── api/
-│   └── chat.js
-│
-├── src/
-│   ├── router/
-│   ├── services/
-│   │   ├── geminiApi.js
-│   │   ├── prompts.js
-│   │   └── quotaSimulator.js
-│   │
-│   ├── transform/
-│   │   └── chatPayload.js
-│   │
-│   ├── ui/
-│   │   └── render.js
-│   │
-│   └── views/
-│
-├── test/
-│
-├── .env.example
-├── .gitignore
-├── index.html
-├── package.json
-├── package-lock.json
-└── README.md
+```
+└── 📁ChatComunidad
+    └── 📁api
+        ├── chat.js
+    └── 📁src
+        └── 📁css
+            └── 📁chat
+                ├── chat.css
+            └── 📁page
+                ├── foto.jpeg
+                ├── styles.css
+            └── 📁tarjetaperfil
+                ├── Don Cacho.jpg
+                ├── Eldrin.jpg
+                ├── Luigi.jpg
+                ├── styleperfil.css
+        └── 📁engine
+            ├── chatEngine.js
+        └── 📁router
+            ├── router.js
+        └── 📁services
+            ├── geminiApi.js
+            ├── mockGeminiApi.js
+            ├── prompts.js
+            ├── quotaSimulator.js
+            ├── tokenEstimator.js
+        └── 📁tranform
+            ├── chatPayload.js
+        └── 📁ui
+            ├── render.js
+        └── 📁views
+            ├── chat.js
+            ├── inicio.js
+            ├── nosotros.js
+            ├── notFound.js
+        ├── main.js
+        ├── navigation.js
+    └── 📁test
+        ├── chatEngine.test.js
+        ├── chatPayload.test.js
+        ├── quotaSimulator.test.js
+        ├── tokenEstimator.test.js
+    ├── .env
+    ├── .env.example
+    ├── .gitignore
+    ├── index.html
+    ├── package-lock.json
+    ├── package.json
+    └── README.md
 ```
 
 ## 📋 Requisitos
