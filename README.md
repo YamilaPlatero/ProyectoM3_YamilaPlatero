@@ -402,3 +402,7 @@ El proyecto busca combinar una interfaz sencilla y responsive con una experienci
 
 
 💻 [Repositorio](https://github.com/YamilaPlatero/ProyectoM3_YamilaPlatero)
+
+## Nota sobre un error
+
+Al momento de refrescar la pagina, desde el deploy sale un 404, que al momento de problarlo con **Serve** no me sucedia.
