@@ -420,12 +420,6 @@ export function initChatEngine() {
 const deleteChatButton =
   document.getElementById("delete-chat-btn");
 
-if (deleteChatButton) {
-  deleteChatButton.addEventListener(
-    "click",
-    deleteHistory
-  );
-}
 
 if (deleteChatButton) {
   deleteChatButton.addEventListener(

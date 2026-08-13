@@ -10,17 +10,21 @@ const routes = {
 };
 
 
+
+
 export function router() {
   const path = window.location.pathname;
   
 
    if (path === "/") {
-    history.replaceState({}, "", "/nosotros");
+    history.replaceState({}, "", "/inicio");
     return router();
   }
 
   const render = routes[path] || renderNotFound;
+
   render();
+  
   updateActiveLink();
   
 }
@@ -40,3 +44,5 @@ export function navigateTo(path) {
   router(); // CRÍTICO: pushState NO dispara popstate
   window.scrollTo(0, 0);
 }
+
+window.addEventListener('popstate', router);
