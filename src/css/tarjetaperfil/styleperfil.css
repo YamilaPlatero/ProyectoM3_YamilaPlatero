@@ -24,9 +24,16 @@ body {
     padding: 1rem;
     font-size: 1rem;
     font-weight: bold;
-    color: #f925da;
+    color: #fffcfffc;
     cursor: pointer;
+    text-decoration:underline;
 }
+.personaje-card__title:hover  {
+  color: #f925da;
+  text-transform:uppercase;
+  transform: scale(1.04);
+}
+
 
 .texto-personaje {
     display: block;
@@ -62,7 +69,7 @@ body {
         padding: 1rem;
         font-size: 1.5rem;
         font-weight: bold;
-        color: #f925da;
+       
     }
 
     .personaje-card__mago,
